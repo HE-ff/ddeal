@@ -1,0 +1,12 @@
+spring.task.scheduling.pool.size=20
+datefile=lastdate
+inbox=imaps://test%40test.io:password@imap.test.io:993/checks
+Authorization=Authorization
+Duid=Duid
+Uid=Uid
+
+logging.level.root=INFO
+
+logging.logback.rollingpolicy.max-history=5
+logging.logback.rollingpolicy.max-file-size=20MB
+logging.file.name=ddeal.log

@@ -1,2 +1,2 @@
 # ddeal
-edadeal auto check uploader
+edadeal auto e-check uploader, supports pyaterochka and azbuka vkusa 

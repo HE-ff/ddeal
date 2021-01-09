@@ -1,0 +1,28 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.0'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'ru.gk'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile "org.springframework.integration:spring-integration-mail:5.4.1"
+    compile group: 'javax.mail', name: 'javax.mail-api'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
+    compile group: 'commons-codec', name:'commons-codec'
+
+ }
+
+test {
+    useJUnitPlatform()
+}
