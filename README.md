@@ -1,2 +1,3 @@
 # ddeal
-edadeal auto e-check uploader, supports pyaterochka and azbuka vkusa 
+Eddeal auto e-check uploader, supports pyaterochka and azbuka vkusa.
+Instructions how to fill credentials in edadeal.jpg. 
