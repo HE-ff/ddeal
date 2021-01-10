@@ -48,12 +48,12 @@ public class DateService {
     }
 
     @PostConstruct
-    private void readOrCreateDateFile() throws IOException, ParseException {
+    private void readOrCreateDateFile() throws IOException {
 
         if (resourceFile.exists()) {
             dateFile = this.objectMapper.readValue(resourceFile.getFile(), DateFile.class);
         } else {
-            dateFile = new DateFile(Date.from(LocalDateTime.of(2020, 01, 01, 0, 0).toInstant(ZoneOffset.systemDefault().getRules().getOffset(LocalDateTime.now()))));
+            dateFile = new DateFile(Date.from(LocalDateTime.now().minusDays(2).toInstant(ZoneOffset.systemDefault().getRules().getOffset(LocalDateTime.now()))));
             this.objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
             objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
             objectMapper.writeValue(new File(resourceFile.getFilename()), dateFile);

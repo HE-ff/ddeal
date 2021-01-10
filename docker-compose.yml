@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  ddeal:
+    build: .
+    image: gk/ddeal
+    container_name: ddeal
