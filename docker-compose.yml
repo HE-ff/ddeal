@@ -1,6 +1,9 @@
 version: "3.8"
 services:
   ddeal:
+    restart: unless-stopped
     build: .
     image: gk/ddeal
     container_name: ddeal
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"

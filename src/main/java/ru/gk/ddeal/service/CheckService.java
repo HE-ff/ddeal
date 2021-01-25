@@ -8,6 +8,7 @@ import java.util.Collections;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,13 +38,18 @@ public class CheckService {
     private static final String CHECK_URL = "aHR0cHM6Ly9jYi5lZGFkZWFsLnJ1L3YyL3VzZXIvY2hlY2tz";
     private static final String DUID = "RWRhZGVhbC1EdWlk";
     private static final String UID = "RWRhZGVhbC1VaWQ=";
+
+    private final RestTemplate restTemplate;
     private static final CustomHttpRequestInterceptor requestInterceptor = new CustomHttpRequestInterceptor();
 
+    @Autowired
+    public CheckService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public void sendCheck(final LocalDateTime date, final String sum, final String fn, final String fd, final String fpd) {
         final String checkUrl = new String(Base64.decodeBase64(CHECK_URL.getBytes()));
 
-        RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 
         headers.set("Authorization", authorization);

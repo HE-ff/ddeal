@@ -2,6 +2,7 @@ package ru.gk.ddeal.config;
 
 
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.mail.dsl.Mail;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 import ru.gk.ddeal.service.AvService;
 import ru.gk.ddeal.service.DateService;
 import ru.gk.ddeal.service.FiveService;
@@ -46,6 +49,15 @@ public class FlowConfig {
         return jacksonObjectMapperBuilder ->
                 jacksonObjectMapperBuilder.timeZone(TimeZone.getDefault());
     }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder
+                .setConnectTimeout(Duration.ofSeconds(500))
+                .setReadTimeout(Duration.ofSeconds(500))
+                .build();
+    }
+
 
     @Bean
     public IntegrationFlow imapMailFlow() throws UnsupportedEncodingException {
