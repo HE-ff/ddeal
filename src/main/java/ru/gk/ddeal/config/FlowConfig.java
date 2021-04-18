@@ -2,6 +2,7 @@ package ru.gk.ddeal.config;
 
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.TimeZone;
 
@@ -23,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.gk.ddeal.service.AvService;
 import ru.gk.ddeal.service.DateService;
 import ru.gk.ddeal.service.FiveService;
+import ru.gk.ddeal.service.POFDService;
 
 @Configuration
 public class FlowConfig {
@@ -36,6 +38,9 @@ public class FlowConfig {
 
     @Autowired
     AvService av;
+
+    @Autowired
+    POFDService pofd;
 
     @Autowired
     private Environment env;
@@ -66,7 +71,7 @@ public class FlowConfig {
             System.exit(SpringApplication.exit(ctx, () -> 0));
         }
 
-        final String inbox = new String(env.getProperty("inbox").getBytes("ISO-8859-1"), "UTF-8");
+        final String inbox = new String(env.getProperty("inbox").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 
         return IntegrationFlows
                 .from(Mail.imapInboundAdapter(inbox)
@@ -84,6 +89,7 @@ public class FlowConfig {
                 .<javax.mail.Message>handle((payload, headers) -> (payload))
                 .handle(x5, "requestHandler")
                 .handle(av, "requestHandler")
+                .handle(pofd, "requestHandler")
                 .handle(dateService, "dateHadler")
                 .get();
     }
