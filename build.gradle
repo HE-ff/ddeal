@@ -20,6 +20,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'commons-codec', name:'commons-codec'
+    implementation group: 'org.apache.commons', name: 'commons-email', version: '1.5'
 
  }
 

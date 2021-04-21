@@ -1,15 +1,14 @@
 package ru.gk.ddeal.service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.mail.util.MimeMessageParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
@@ -27,11 +26,13 @@ public class AvService {
         this.checkService = checkService;
     }
 
+    public Message requestHandler(Message message) throws Exception {
 
-    public Message requestHandler(Message message) throws IOException, MessagingException {
-        String htmlTxt = ((MimeMultipart) message.getContent()).getBodyPart(0).getContent().toString();
+        final MimeMessageParser parser = new MimeMessageParser((MimeMessage) message);
+        parser.parse();
+        final String htmlContent = parser.getHtmlContent();
 
-        Document html = Jsoup.parse(htmlTxt, "", Parser.xmlParser());
+        Document html = Jsoup.parse(htmlContent, "", Parser.xmlParser());
         if (html.text().contains("Азбука Вкуса")) {
 
             String date;

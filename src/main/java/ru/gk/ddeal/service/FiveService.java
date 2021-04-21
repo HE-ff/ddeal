@@ -1,14 +1,12 @@
 package ru.gk.ddeal.service;
 
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.mail.util.MimeMessageParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
@@ -28,11 +26,14 @@ public class FiveService {
         this.checkService = checkService;
     }
 
-    public Message requestHandler(Message message) throws IOException, MessagingException {
-        String htmlTxt = ((MimeMultipart) message.getContent()).getBodyPart(0).getContent().toString();
-        log.info("Mail body:" + htmlTxt);
+    public Message requestHandler(Message message) throws Exception {
 
-        Document html = Jsoup.parse(htmlTxt, "", Parser.xmlParser());
+        final MimeMessageParser parser = new MimeMessageParser((MimeMessage) message);
+        parser.parse();
+        final String htmlContent = parser.getHtmlContent();
+        log.info("Mail body:" + htmlContent);
+
+        final Document html = Jsoup.parse(htmlContent, "", Parser.xmlParser());
         if (html.select("td:contains(Дата)").last() != null) {
             String date = html.select("td:contains(Дата)").last().parent().child(1).text();
             String sum = html.select("td:contains(Итог)").last().parent().child(1).text();
